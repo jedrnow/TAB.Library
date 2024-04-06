@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("Unable to get connection string \"DefaultConnection\"");
 
-builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString, x => x.MigrationsAssembly("TAB.Library.Backend.Infrastructure")));
 builder.Services.AddCore();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
