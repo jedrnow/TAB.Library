@@ -1,5 +1,8 @@
+using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using TAB.Library.Backend.Application.Middlewares;
 using TAB.Library.Backend.Core;
 using TAB.Library.Backend.Infrastructure.Data;
@@ -10,6 +13,13 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString, x => x.MigrationsAssembly("TAB.Library.Backend.Infrastructure")));
 builder.Services.AddCore();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

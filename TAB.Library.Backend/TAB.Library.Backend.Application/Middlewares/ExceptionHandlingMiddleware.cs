@@ -25,6 +25,10 @@ namespace TAB.Library.Backend.Application.Middlewares
             {
                 await HandleExceptionAsync(context, ex);
             }
+            catch (RequestValidationException ex)
+            {
+                await HandleExceptionAsync(context, ex);
+            }
             catch (Exception)
             {
                 await HandleExceptionAsync(context, new UnrecognizedException());
