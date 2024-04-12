@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using TAB.Library.Backend.Core.Entities;
 
 namespace TAB.Library.Backend.Infrastructure.Data
 {
     public class LibraryDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
         {
 
@@ -11,6 +14,7 @@ namespace TAB.Library.Backend.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         public async Task<bool> SaveChangesAsync()
