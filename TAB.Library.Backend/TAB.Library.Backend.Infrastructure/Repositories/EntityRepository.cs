@@ -155,5 +155,10 @@ namespace TAB.Library.Backend.Infrastructure.Repositories
         {
             _context.Set<TEntity>().RemoveRange(entities);
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

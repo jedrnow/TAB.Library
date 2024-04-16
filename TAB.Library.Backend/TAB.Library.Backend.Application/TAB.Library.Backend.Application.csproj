@@ -26,9 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Commands\" />
-    <Folder Include="Handlers\" />
     <Folder Include="DTO\" />
     <Folder Include="Queries\" />
   </ItemGroup>
