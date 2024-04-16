@@ -2,11 +2,13 @@
 {
     public class User : BaseEntity
     {
-        public string Username { get; private set; } = string.Empty;
-        public string Email { get; private set; } = string.Empty;
-        public string PasswordHash { get; private set; } = string.Empty;
-        public string FirstName { get; private set; } = string.Empty;
-        public string LastName { get; private set; } = string.Empty;
-        public string PhoneNumber { get; private set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
     }
 }
