@@ -1,8 +1,8 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Reflection;
 using TAB.Library.Backend.Application.Middlewares;
 using TAB.Library.Backend.Core;
@@ -28,6 +28,37 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TAB Library API", Version = "v1" });
 });
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "TAB.Library.Session";
+    options.IdleTimeout = TimeSpan.FromDays(5);
+    options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true;
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.Name = "TAB.Library.Authentication";
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    options.Cookie.IsEssential = true;
+    options.SlidingExpiration = true;
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = 403;
+        return Task.CompletedTask;
+    };
+    options.LoginPath = "/login";
+});
+
 var app = builder.Build();
 
 using (var Scope = app.Services.CreateScope())
@@ -44,6 +75,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
