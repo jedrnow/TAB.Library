@@ -8,6 +8,7 @@ namespace TAB.Library.Backend.Infrastructure.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
         {
 
