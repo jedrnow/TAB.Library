@@ -11,7 +11,12 @@ namespace TAB.Library.Backend.Core
         public static void AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
+
+            // Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            // Services
             services.AddScoped<IUserService, UserService>();
         }
     }

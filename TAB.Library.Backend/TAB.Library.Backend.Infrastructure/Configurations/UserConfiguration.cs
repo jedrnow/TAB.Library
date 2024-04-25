@@ -22,7 +22,9 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
                 LastName = "Nowaczyk",
                 PhoneNumber = "1234567890",
                 RoleId = 1,
-                PasswordHash = "7d948a6a6ea2e89d89645321e2df20d7ad859e7008acb8531f295b05f59b9a98"
+                PasswordHash = "7d948a6a6ea2e89d89645321e2df20d7ad859e7008acb8531f295b05f59b9a98",
+                CreatedAtUtc = new DateTime(2024, 4, 25),
+                UpdatedAtUtc = new DateTime(2024, 4, 25)
             });
         }
     }
