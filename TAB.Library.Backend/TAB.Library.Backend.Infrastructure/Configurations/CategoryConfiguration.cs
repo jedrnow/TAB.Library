@@ -8,7 +8,10 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasMany(c => c.Books).WithOne(b => b.Category).HasForeignKey(b => b.CategoryId);
+            builder
+                .HasMany(c => c.Books)
+                .WithOne(b => b.Category)
+                .HasForeignKey(b => b.CategoryId);
 
             builder.HasData(
                 new Category { Id = 1, Name = "Fantasy", CreatedAtUtc = new DateTime(2024,4,25), UpdatedAtUtc = new DateTime(2024, 4, 25) },

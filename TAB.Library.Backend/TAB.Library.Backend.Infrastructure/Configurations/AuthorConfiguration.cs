@@ -8,7 +8,10 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Author> builder)
         {
-            builder.HasMany(c => c.Books).WithOne(b => b.Author).HasForeignKey(b => b.AuthorId);
+            builder
+                .HasMany(c => c.Books)
+                .WithOne(b => b.Author)
+                .HasForeignKey(b => b.AuthorId);
 
             builder.HasData(
                 new Author { Id = 1, FirstName = "Andrzej", LastName = "Sapkowski", CreatedAtUtc = new DateTime(2024, 4, 25), UpdatedAtUtc = new DateTime(2024, 4, 25) },

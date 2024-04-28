@@ -8,5 +8,7 @@
         public int AuthorId { get; set; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
+        public int? BookFileId { get; set; } = null;
+        public BookFile? BookFile { get; set; } = null;
     }
 }

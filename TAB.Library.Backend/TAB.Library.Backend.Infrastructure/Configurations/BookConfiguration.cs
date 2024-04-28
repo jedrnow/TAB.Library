@@ -8,9 +8,21 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            builder.HasOne(b => b.Author).WithMany(a => a.Books).HasForeignKey(b => b.AuthorId);
+            builder
+                .HasOne(b => b.Author)
+                .WithMany(a => a.Books)
+                .HasForeignKey(b => b.AuthorId);
 
-            builder.HasOne(b => b.Category).WithMany(c => c.Books).HasForeignKey(b => b.CategoryId);
+            builder
+                .HasOne(b => b.Category)
+                .WithMany(c => c.Books)
+                .HasForeignKey(b => b.CategoryId);
+
+            builder
+                .HasOne(b => b.BookFile)
+                .WithOne(bf => bf.Book)
+                .HasForeignKey<Book>(b => b.BookFileId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
                 new Book { Id = 1, Title = "Wiedźmin", PublishYear = 1986, CategoryId = 1, AuthorId = 1, CreatedAtUtc = new DateTime(2024, 4, 28), UpdatedAtUtc = new DateTime(2024, 4, 28) },
