@@ -5,11 +5,9 @@ namespace TAB.Library.Backend.Application.Health
 {
     public class DatabaseHealthCheck : IHealthCheck
     {
-        private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly IConfiguration _configuration;
-        public DatabaseHealthCheck(IDbConnectionFactory dbConnectionFactory, IConfiguration configuration)
+        public DatabaseHealthCheck(IConfiguration configuration)
         {
-            _dbConnectionFactory = dbConnectionFactory;
             _configuration = configuration;
 
         }
@@ -18,14 +16,22 @@ namespace TAB.Library.Backend.Application.Health
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("Connection string not found!");
-                using var connection = _dbConnectionFactory.CreateConnection(connectionString);
+
+                LocalDbConnectionFactory factory = new();
+
+                using var connection = factory.CreateConnection(connectionString);
+
+                await connection.OpenAsync();
+
                 using var command = connection.CreateCommand();
                 command.CommandText = "SELECT 1";
                 await command.ExecuteScalarAsync();
 
+                await connection.CloseAsync();
+
                 return HealthCheckResult.Healthy();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return HealthCheckResult.Unhealthy(exception: ex);
             }
