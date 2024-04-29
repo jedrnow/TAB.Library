@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using TAB.Library.Backend.Application.Health;
 using TAB.Library.Backend.Application.Middlewares;
 using TAB.Library.Backend.Core;
 using TAB.Library.Backend.Infrastructure.Data;
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("Unable to get connection string \"DefaultConnection\"");
 
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("Database");
 builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString, x => x.MigrationsAssembly("TAB.Library.Backend.Infrastructure")));
 builder.Services.AddInfrastructure();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -72,6 +75,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.MapHealthChecks("/_health");
 
 app.UseAuthentication();
 app.UseAuthorization();
