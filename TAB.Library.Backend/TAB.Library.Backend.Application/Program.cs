@@ -15,7 +15,12 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>("Database");
-builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString, x => x.MigrationsAssembly("TAB.Library.Backend.Infrastructure")));
+builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(connectionString,
+    options =>
+    {
+        options.MigrationsAssembly("TAB.Library.Backend.Infrastructure");
+        options.EnableRetryOnFailure(maxRetryCount: 20, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+    }));
 builder.Services.AddInfrastructure();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
