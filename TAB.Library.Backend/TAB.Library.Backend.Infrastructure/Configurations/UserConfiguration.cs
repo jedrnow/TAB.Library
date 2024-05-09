@@ -14,6 +14,11 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
                 .HasForeignKey(u => u.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+               .HasMany(u => u.UsersRentals)
+               .WithOne(r => r.User)
+               .HasForeignKey(r => r.UserId);
+
             builder.HasData(new User()
             {
                 Id = 1,

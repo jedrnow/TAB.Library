@@ -19,7 +19,7 @@ builder.Services.AddDbContext<LibraryDbContext>(options => options.UseSqlServer(
     options =>
     {
         options.MigrationsAssembly("TAB.Library.Backend.Infrastructure");
-        options.EnableRetryOnFailure(maxRetryCount: 20, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+        options.EnableRetryOnFailure(maxRetryCount: 40, maxRetryDelay: TimeSpan.FromSeconds(15), errorNumbersToAdd: null);
     }));
 builder.Services.AddInfrastructure();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

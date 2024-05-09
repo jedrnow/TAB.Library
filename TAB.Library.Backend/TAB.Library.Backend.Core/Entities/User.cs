@@ -10,5 +10,6 @@
         public string PhoneNumber { get; set; } = string.Empty;
         public int RoleId { get; set; }
         public Role Role { get; set; }
+        public virtual List<Rental> UsersRentals { get; set; } = new List<Rental>();
     }
 }
