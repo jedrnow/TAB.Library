@@ -27,7 +27,8 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
             builder
                .HasMany(b => b.RentalHistory)
                .WithOne(r => r.Book)
-               .HasForeignKey(r => r.BookId);
+               .HasForeignKey(r => r.BookId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
                 new Book { Id = 1, Title = "Wiedźmin", PublishYear = 1986, CategoryId = 1, AuthorId = 1, CreatedAtUtc = new DateTime(2024, 4, 28), UpdatedAtUtc = new DateTime(2024, 4, 28) },
