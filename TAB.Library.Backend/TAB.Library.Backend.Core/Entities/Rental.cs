@@ -6,8 +6,8 @@
         public DateTime ToUtc { get; set; }
         public bool IsReturned { get; set; } = false;
         public Book Book { get; set; }
-        public int? BookId { get; set; }
+        public int BookId { get; set; }
         public User User { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

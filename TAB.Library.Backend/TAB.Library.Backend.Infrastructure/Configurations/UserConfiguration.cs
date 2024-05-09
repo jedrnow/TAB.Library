@@ -17,7 +17,8 @@ namespace TAB.Library.Backend.Infrastructure.Configurations
             builder
                .HasMany(u => u.UsersRentals)
                .WithOne(r => r.User)
-               .HasForeignKey(r => r.UserId);
+               .HasForeignKey(r => r.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(new User()
             {

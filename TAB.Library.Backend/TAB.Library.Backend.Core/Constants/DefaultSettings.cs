@@ -2,6 +2,8 @@
 {
     public static class DefaultSettings
     {
+        public const int PageSize = 10;
+
         public static readonly int AdministratorRoleId = 1;
         public static readonly int UserRoleId = 2;
 
@@ -16,5 +18,7 @@
 
         public static readonly int MinPhoneNumberLength = 3;
         public static readonly int MaxPhoneNumberLength = 20;
+
+        public static readonly int RentalPeriodInDays = 14;
     }
 }

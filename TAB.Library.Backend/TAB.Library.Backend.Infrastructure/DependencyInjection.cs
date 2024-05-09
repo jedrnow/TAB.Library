@@ -11,6 +11,7 @@ namespace TAB.Library.Backend.Core
         public static void AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Repositories
             services.AddScoped<IUserRepository, UserRepository>();
@@ -22,6 +23,7 @@ namespace TAB.Library.Backend.Core
 
             // Services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRentalService, RentalService>();
         }
     }
 }
