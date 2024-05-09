@@ -10,5 +10,6 @@
         public int CategoryId { get; set; }
         public int? BookFileId { get; set; } = null;
         public BookFile? BookFile { get; set; } = null;
+        public virtual List<Rental> RentalHistory { get; set; } = new List<Rental>();
     }
 }

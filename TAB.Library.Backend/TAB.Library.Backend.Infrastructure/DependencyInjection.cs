@@ -18,6 +18,7 @@ namespace TAB.Library.Backend.Core
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookFileRepository, BookFileRepository>();
+            services.AddScoped<IRentalRepository, RentalRepository>();
 
             // Services
             services.AddScoped<IUserService, UserService>();
