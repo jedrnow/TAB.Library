@@ -15,7 +15,7 @@ namespace TAB.Library.Backend.Core.Exceptions.Base
         }
         public override string ToString()
         {
-            return "{ " + $"\"StatusCode\":{(int)StatusCode}, \"Title\":{Title}, \"Message\":{Message}" + " }";
+            return "{ " + $"\"StatusCode\":{(int)StatusCode}, \"Title\":\"{Title}\", \"Message\":\"{Message}\"" + " }";
         }
     }
 }
