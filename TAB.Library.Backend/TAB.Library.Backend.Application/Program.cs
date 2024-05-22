@@ -80,8 +80,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseCors("AllowAllHeaders");
-
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
@@ -89,7 +87,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAllHeaders");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
