@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllHeaders", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("https://tab-library.azurewebsites.net", "http://localhost:5173")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
