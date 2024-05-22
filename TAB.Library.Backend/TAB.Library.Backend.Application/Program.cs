@@ -29,11 +29,16 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+
+builder.Services.AddCors(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TAB Library API", Version = "v1" });
+    options.AddPolicy("AllowAllHeaders", builder =>
+    {
+        builder.WithOrigins("https://tab-library.azurewebsites.net/", "http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
 });
 
 builder.Services.AddDistributedMemoryCache();
@@ -64,27 +69,36 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         context.Response.StatusCode = 403;
         return Task.CompletedTask;
     };
-    options.LoginPath = "/login";
+    options.LoginPath = "/";
+});
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TAB Library API", Version = "v1" });
 });
 
 var app = builder.Build();
 
-using (var Scope = app.Services.CreateScope())
+app.UseCors("AllowAllHeaders");
+
+using (var scope = app.Services.CreateScope())
 {
-    var context = Scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
     context.Database.Migrate();
 }
 
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
-
-app.MapHealthChecks("/_health");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCookiePolicy();
+app.UseSession();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapHealthChecks("/_health");
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 

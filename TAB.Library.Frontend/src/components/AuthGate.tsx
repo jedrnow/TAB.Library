@@ -12,7 +12,10 @@ const AuthGate: React.FC<AuthGateProps> = ({ loggedInComponent}) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch(API_BASE_URL + '/Auth/IsAuthenticated');
+        const response = await fetch(API_BASE_URL + '/Auth/IsAuthenticated', {
+          method: 'GET',
+          credentials: 'include'
+      });
         if (response.status === 200) {
           setIsAuthenticated(true);
         } else {
