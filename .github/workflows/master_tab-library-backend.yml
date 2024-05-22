@@ -54,6 +54,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'tab-library-backend'
-          slot-name: 'Production'
+          slot-name: 'Production Backend'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C9AA0BC60DAC4177B0F193555E56545E }}
