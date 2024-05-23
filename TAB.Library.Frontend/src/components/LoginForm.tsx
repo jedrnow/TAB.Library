@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { API_BASE_URL } from '../constants/api';
-import { redirect} from 'react-router-dom';
 import "./LoginForm.css";
 import ErrorResponseBody from '../constants/ErrorResponseBody';
+import { Link } from 'react-router-dom';
 
 interface LoginRequestBody {
   username: string;
@@ -40,7 +40,7 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         setValidationErrorText('');
-        return redirect("/");
+        window.location.reload();
       } else {
         const responseBody: ErrorResponseBody = await response.json();
         setValidationErrorText(responseBody.Message);
@@ -72,6 +72,9 @@ const LoginForm: React.FC = () => {
             value={password}
             onChange={handlePasswordChange}
           />
+        </div>
+        <div>
+        <Link to="/register">Register account</Link>
         </div>
         <button type="button" onClick={handleLogin}>
           Zaloguj się
