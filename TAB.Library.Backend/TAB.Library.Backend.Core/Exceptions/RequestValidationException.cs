@@ -11,7 +11,7 @@ namespace TAB.Library.Backend.Core.Exceptions
 
             foreach(var error in errorsDictionary)
             {
-                message += $"{error.Key}: {string.Join(". ", error.Value)}.\n";
+                message += $"{string.Join(". ", error.Value)}.";
             }
 
             Message = message;
