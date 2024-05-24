@@ -22,12 +22,12 @@ namespace TAB.Library.Backend.Application.Commands
         {
             RuleFor(x => x.Username)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Username is required.")
+                .NotEmpty().WithMessage("Username is required")
                 .Length(DefaultSettings.MinUsernameLength, DefaultSettings.MaxUsernameLength).WithMessage($"Username length must be between {DefaultSettings.MinUsernameLength} and {DefaultSettings.MaxUsernameLength}");
 
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Password is required.")
+                .NotEmpty().WithMessage("Password is required")
                 .Length(DefaultSettings.MinPasswordLength, DefaultSettings.MaxPasswordLength).WithMessage($"Password length must be between {DefaultSettings.MinPasswordLength} and {DefaultSettings.MaxPasswordLength}");
         }
     }

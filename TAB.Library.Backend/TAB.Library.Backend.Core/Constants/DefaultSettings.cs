@@ -4,6 +4,12 @@
     {
         public const int PageSize = 10;
 
+        public static readonly int MinPageNumber = 1;
+        public static readonly int MaxPageNumber = 500;
+
+        public static readonly int MinPageSize = 1;
+        public static readonly int MaxPageSize = 50;
+
         public static readonly int AdministratorRoleId = 1;
         public static readonly int UserRoleId = 2;
 
