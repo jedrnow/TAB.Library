@@ -34,10 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TAB.Library.Backend.Core\TAB.Library.Backend.Core.csproj" />
     <ProjectReference Include="..\TAB.Library.Backend.Infrastructure\TAB.Library.Backend.Infrastructure.csproj" />
   </ItemGroup>

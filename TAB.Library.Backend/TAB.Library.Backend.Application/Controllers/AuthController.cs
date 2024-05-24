@@ -7,8 +7,6 @@ using TAB.Library.Backend.Application.Commands;
 using TAB.Library.Backend.Application.Models;
 using TAB.Library.Backend.Infrastructure.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using System.Net;
-using TAB.Library.Backend.Core.Exceptions.Base;
 using TAB.Library.Backend.Core.Exceptions;
 
 namespace TAB.Library.Backend.Application.Controllers
