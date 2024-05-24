@@ -8,7 +8,7 @@ const LogoutButton: React.FC = () => {
   };
 
   return (
-      <button onClick={handleLogout}>Wyloguj</button>
+      <button onClick={handleLogout}>Logout</button>
   );
 };
 
