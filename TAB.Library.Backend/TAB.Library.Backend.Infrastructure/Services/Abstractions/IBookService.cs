@@ -5,6 +5,6 @@ namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
 {
     public interface IBookService
     {
-        Task<PaginatedList<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize);
+        Task<PaginatedListDTO<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize);
     }
 }

@@ -17,7 +17,7 @@ namespace TAB.Library.Backend.Infrastructure.Mapping
                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
                .ForMember(dest => dest.PdfContent, opt => opt.MapFrom(src => src.BookFile != null ? src.BookFile.Content : string.Empty))
-               .ForMember(dest => dest.isReserved, opt => opt.MapFrom(src => src.RentalHistory.Count != 0));
+               .ForMember(dest => dest.IsReserved, opt => opt.MapFrom(src => src.RentalHistory.Count != 0));
         }
     }
 }

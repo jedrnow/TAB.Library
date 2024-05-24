@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TAB.Library.Backend.Core.Models;
+using TAB.Library.Backend.Core.Models.DTO;
 
 namespace TAB.Library.Backend.Infrastructure.Mapping
 {
@@ -7,16 +8,20 @@ namespace TAB.Library.Backend.Infrastructure.Mapping
     {
         public PaginatedListMappingProfile()
         {
-            CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>)).ConvertUsing(typeof(PaginatedListConverter<,>));
+            CreateMap(typeof(PaginatedList<>), typeof(PaginatedListDTO<>)).ConvertUsing(typeof(PaginatedListToDtoConverter<,>));
         }
     }
 
-    public class PaginatedListConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedList<TDestination>>
+    public class PaginatedListToDtoConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedListDTO<TDestination>>
     {
-        public PaginatedList<TDestination> Convert(PaginatedList<TSource> source, PaginatedList<TDestination> destination, ResolutionContext context)
+        public PaginatedListDTO<TDestination> Convert(PaginatedList<TSource> source, PaginatedListDTO<TDestination> destination, ResolutionContext context)
         {
             var mappedList = context.Mapper.Map<List<TDestination>>(source.ToList());
-            return new PaginatedList<TDestination>(mappedList, source.TotalCount, source.PageIndex, source.PageSize);
+            return new PaginatedListDTO<TDestination>
+            {
+                List = mappedList,
+                TotalPages = source.TotalPages
+            };
         }
     }
 }

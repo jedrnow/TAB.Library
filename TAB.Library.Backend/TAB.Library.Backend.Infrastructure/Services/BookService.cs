@@ -17,11 +17,11 @@ namespace TAB.Library.Backend.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize)
+        public async Task<PaginatedListDTO<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize)
         {
             var bookList = await _bookRepository.GetPaginatedListAsync(pageNumber, pageSize, x => x.RentalHistory, x => x.Author, x => x.Category, x => x.BookFile);
 
-            var mappedBookList = _mapper.Map<PaginatedList<BookDTO>>(bookList);
+            var mappedBookList = _mapper.Map<PaginatedListDTO<BookDTO>>(bookList);
 
             return mappedBookList;
         }

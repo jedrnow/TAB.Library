@@ -6,7 +6,7 @@ using TAB.Library.Backend.Core.Models.DTO;
 
 namespace TAB.Library.Backend.Application.Queries
 {
-    public class GetPaginatedBookListQuery : IRequest<PaginatedList<BookDTO>>
+    public class GetPaginatedBookListQuery : IRequest<PaginatedListDTO<BookDTO>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

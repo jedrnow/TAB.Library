@@ -6,7 +6,7 @@ using TAB.Library.Backend.Infrastructure.Services.Abstractions;
 
 namespace TAB.Library.Backend.Application.Handlers
 {
-    public class GetPaginatedBookListQueryHandler : IRequestHandler<GetPaginatedBookListQuery, PaginatedList<BookDTO>>
+    public class GetPaginatedBookListQueryHandler : IRequestHandler<GetPaginatedBookListQuery, PaginatedListDTO<BookDTO>>
     {
         private readonly IBookService _bookService;
 
@@ -15,9 +15,9 @@ namespace TAB.Library.Backend.Application.Handlers
             _bookService = bookService;
         }
 
-        public async Task<PaginatedList<BookDTO>> Handle(GetPaginatedBookListQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedListDTO<BookDTO>> Handle(GetPaginatedBookListQuery request, CancellationToken cancellationToken)
         {
-            PaginatedList<BookDTO> result = await _bookService.GetPaginatedBookList(request.PageNumber, request.PageSize);
+            PaginatedListDTO<BookDTO> result = await _bookService.GetPaginatedBookList(request.PageNumber, request.PageSize);
 
             return result;
         }

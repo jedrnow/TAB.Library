@@ -22,7 +22,7 @@ namespace TAB.Library.Backend.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<BookDTO>>> GetPaginatedList([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<ActionResult<PaginatedListDTO<BookDTO>>> GetPaginatedList([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var query = new GetPaginatedBookListQuery(pageNumber, pageSize);
 

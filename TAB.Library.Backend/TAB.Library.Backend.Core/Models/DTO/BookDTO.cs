@@ -10,6 +10,6 @@
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
         public string? PdfContent { get; set; }
-        public bool isReserved { get; set; }
+        public bool IsReserved { get; set; }
     }
 }
