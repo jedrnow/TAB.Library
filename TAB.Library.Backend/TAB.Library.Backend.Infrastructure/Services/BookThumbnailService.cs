@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using System.IO;
-using System.Threading.Tasks;
 using TAB.Library.Backend.Infrastructure.Repositories.Abstractions;
 using TAB.Library.Backend.Infrastructure.Services.Abstractions;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using TAB.Library.Backend.Core.Entities;
 using TAB.Library.Backend.Core.Constants;
+using TAB.Library.Backend.Core.Exceptions;
 
 namespace TAB.Library.Backend.Infrastructure.Services
 {
@@ -24,19 +19,25 @@ namespace TAB.Library.Backend.Infrastructure.Services
             _bookThumbnailRepository = bookThumbnailRepository;
         }
 
+        public async Task<bool> CheckIfThumbnailsExist(int bookId)
+        {
+            var thumbnails = await _bookThumbnailRepository.GetListAsync(x => x.BookId == bookId);
+
+            return thumbnails.Any(x => x.Size == ThumbnailSize.Small) && thumbnails.Any(x => x.Size == ThumbnailSize.Medium) && thumbnails.Any(x => x.Size == ThumbnailSize.Large);
+        }
         public async Task<bool> AddThumbnails(int bookId, IFormFile file)
         {
             var thumbnailsList = new List<BookThumbnail>();
 
             using var image = await Image.LoadAsync(file.OpenReadStream());
 
-            var smallThumbnail = await CreateThumbnail(bookId, image, ThumbnailSize.Small);
+            var smallThumbnail = await CreateSingleThumbnail(bookId, image, ThumbnailSize.Small);
             thumbnailsList.Add(smallThumbnail);
 
-            var mediumThumbnail = await CreateThumbnail(bookId, image, ThumbnailSize.Medium);
+            var mediumThumbnail = await CreateSingleThumbnail(bookId, image, ThumbnailSize.Medium);
             thumbnailsList.Add(mediumThumbnail);
 
-            var largeThumbnail = await CreateThumbnail(bookId, image, ThumbnailSize.Large);
+            var largeThumbnail = await CreateSingleThumbnail(bookId, image, ThumbnailSize.Large);
             thumbnailsList.Add(largeThumbnail);
 
             await _bookThumbnailRepository.AddRangeAsync(thumbnailsList);
@@ -44,7 +45,34 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _bookThumbnailRepository.SaveChangesAsync();
         }
 
-        private async Task<BookThumbnail> CreateThumbnail(int bookId, Image image, ThumbnailSize thumbnailSize)
+        public async Task<bool> DeleteThumbnails(int bookId)
+        {
+            var bookThumbnails = await _bookThumbnailRepository.GetListToEditAsync(x => x.BookId == bookId);
+
+            _bookThumbnailRepository.DeleteRange(bookThumbnails);
+
+            return await _bookThumbnailRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdateThumbnails(int bookId, IFormFile file)
+        {
+            var bookThumbnails = await _bookThumbnailRepository.GetListToEditAsync(x => x.BookId == bookId);
+
+            using var image = await Image.LoadAsync(file.OpenReadStream());
+
+            var smallThumbnail = bookThumbnails.FirstOrDefault(x => x.Size == ThumbnailSize.Small) ?? throw new EntityNotFoundException(typeof(BookThumbnail));
+            await UpdateSingleThumbnail(smallThumbnail, image);
+
+            var mediumThumbnail = bookThumbnails.FirstOrDefault(x => x.Size == ThumbnailSize.Medium) ?? throw new EntityNotFoundException(typeof(BookThumbnail));
+            await UpdateSingleThumbnail(mediumThumbnail, image);
+
+            var largeThumbnail = bookThumbnails.FirstOrDefault(x => x.Size == ThumbnailSize.Large) ?? throw new EntityNotFoundException(typeof(BookThumbnail));
+            await UpdateSingleThumbnail(largeThumbnail, image);
+
+            return await _bookThumbnailRepository.SaveChangesAsync();
+        }
+
+        private async Task<BookThumbnail> CreateSingleThumbnail(int bookId, Image image, ThumbnailSize thumbnailSize)
         {
             var size = GetThumbnailSize(thumbnailSize);
 
@@ -62,6 +90,19 @@ namespace TAB.Library.Backend.Infrastructure.Services
             };
 
             return bookThumbnail;
+        }
+
+        private async Task UpdateSingleThumbnail(BookThumbnail bookThumbnail, Image image)
+        {
+            var size = GetThumbnailSize(bookThumbnail.Size);
+
+            var thumbnail = image.Clone(ctx => ctx.Resize(size, size));
+
+            using var stream = new MemoryStream();
+
+            await thumbnail.SaveAsJpegAsync(stream);
+
+            bookThumbnail.ByteContent = stream.ToArray();
         }
 
         private static int GetThumbnailSize(ThumbnailSize thumbnailSize)

@@ -4,6 +4,7 @@ namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
 {
     public interface IUserService
     {
+        Task<bool> CheckAdminPermissions(string username);
         Task<bool> UsernameExistsInDb(string username);
         Task<bool> EmailExistsInDb(string email);
         Task<bool> RegisterUser(string username, string password, string email, string firstname, string lastname, string phoneNumber);
