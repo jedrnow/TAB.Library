@@ -2,6 +2,6 @@
 
 Application designed to manage a library.
 
-https://tab-library.azurewebsites.net/
+[URL TO APP](https://lemon-field-0da130503.5.azurestaticapps.net/)
 
-https://tab-library-backend.azurewebsites.net/swagger/index.html
+[URL TO SWAGGER](https://tab-library-backend.azurewebsites.net/swagger/index.html)
