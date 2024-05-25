@@ -12,6 +12,7 @@ namespace TAB.Library.Backend.Infrastructure.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookFile> BookFiles { get; set; }
+        public DbSet<BookThumbnail> BookThumbnails { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
         {

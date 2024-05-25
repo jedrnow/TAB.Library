@@ -11,5 +11,6 @@
         public int? BookFileId { get; set; } = null;
         public BookFile? BookFile { get; set; } = null;
         public virtual List<Rental> RentalHistory { get; set; } = new List<Rental>();
+        public virtual List<BookThumbnail> BookThumbnails { get; set; } = new List<BookThumbnail>();
     }
 }
