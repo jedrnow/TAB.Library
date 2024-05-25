@@ -4,6 +4,7 @@ import RegisterForm from './components/RegisterForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BookDetails from './components/BookDetails';
 import Home from './components/Home';
+import UsersRentals from './components/UsersRentals';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Route path="/" element={<AuthGate loggedInComponent={<Home />} />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/book/:bookId" element={<AuthGate loggedInComponent={<BookDetails />} />} />
+          <Route path="/rentals" element={<AuthGate loggedInComponent={<UsersRentals />} />} />
           <Route path="*" element={<AuthGate loggedInComponent={<Home />} />} />
         </Routes>
       </div>
