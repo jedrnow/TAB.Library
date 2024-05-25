@@ -37,46 +37,40 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _rentalRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> ExtendRental(int rentalId, int daysToAdd)
+        public async Task<bool> ExtendRental(int rentalId, int daysToAdd, int userId)
         {
-            Rental? rental = await _rentalRepository.GetAsync(rentalId);
-            if (rental == null)
-            {
-                throw new EntityNotFoundException(typeof(Rental), rentalId);
-            }
+            Rental rental = await _rentalRepository.GetToEditAsync(rentalId) ?? throw new EntityNotFoundException(typeof(Rental), rentalId);
+            if (rental.UserId != userId) throw new UserUnauthorizedException();
 
             rental.ToUtc = rental.ToUtc.AddDays(daysToAdd);
 
             return await _rentalRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> FinishRental(int rentalId)
+        public async Task<bool> FinishRental(int rentalId, int userId)
         {
-            Rental? rental = await _rentalRepository.GetAsync(rentalId);
-            if (rental == null)
-            {
-                throw new EntityNotFoundException(typeof(Rental), rentalId);
-            }
+            Rental rental = await _rentalRepository.GetToEditAsync(rentalId) ?? throw new EntityNotFoundException(typeof(Rental), rentalId);
+            if (rental.UserId != userId) throw new UserUnauthorizedException();
 
             rental.IsReturned = true;
 
             return await _rentalRepository.SaveChangesAsync();
         }
 
-        public async Task<PaginatedList<RentalDTO>> GetUsersRentalsPaginatedList(int userId, int pageNumber, int pageSize = DefaultSettings.PageSize, bool onlyActiveRentals = false)
+        public async Task<PaginatedListDTO<RentalDTO>> GetUsersRentalsPaginatedList(int userId, int pageNumber, int pageSize = DefaultSettings.PageSize, bool onlyActiveRentals = false)
         {
             PaginatedList<Rental> rentalsPaginatedList = await _rentalRepository.GetPaginatedListAsync(pageNumber, pageSize, x => x.UserId == userId && (!onlyActiveRentals || x.IsReturned == false), x => x.Book, x => x.User);
 
-            PaginatedList<RentalDTO> rentalsMappedPaginatedList = _mapper.Map<PaginatedList<RentalDTO>>(rentalsPaginatedList);
+            PaginatedListDTO<RentalDTO> rentalsMappedPaginatedList = _mapper.Map<PaginatedListDTO<RentalDTO>>(rentalsPaginatedList);
 
             return rentalsMappedPaginatedList;
         }
 
-        public async Task<PaginatedList<RentalDTO>> GetRentalsPaginatedList(int pageNumber, int pageSize = DefaultSettings.PageSize, bool onlyActiveRentals = false)
+        public async Task<PaginatedListDTO<RentalDTO>> GetRentalsPaginatedList(int pageNumber, int pageSize = DefaultSettings.PageSize, bool onlyActiveRentals = false)
         {
             PaginatedList<Rental> rentalsPaginatedList = await _rentalRepository.GetPaginatedListAsync(pageNumber, pageSize, x => (!onlyActiveRentals || x.IsReturned == false), x => x.Book, x => x.User);
 
-            PaginatedList<RentalDTO> rentalsMappedPaginatedList = _mapper.Map<PaginatedList<RentalDTO>>(rentalsPaginatedList);
+            PaginatedListDTO<RentalDTO> rentalsMappedPaginatedList = _mapper.Map<PaginatedListDTO<RentalDTO>>(rentalsPaginatedList);
 
             return rentalsMappedPaginatedList;
         }
