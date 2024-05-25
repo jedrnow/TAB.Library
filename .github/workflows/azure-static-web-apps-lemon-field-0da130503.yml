@@ -18,14 +18,15 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: cd TAB.Library.Frontend
-        run: cd TAB.Library.Frontend
       - name: npm install
-        run: npm install --prefix ./TAB.Library.Backend -g
+        run: npm install
+        working-directory: ./TAB.Library.Frontend
       - name: npm build
-        run: npm run build --prefix ./TAB.Library.Backend -g
+        run: npm run build
+        working-directory: ./TAB.Library.Frontend
       - name: Delete node_modules
         run: rm -rf node_modules
+        working-directory: ./TAB.Library.Frontend
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -33,5 +34,5 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_FIELD_0DA130503 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          app_location: "./" # App source code path (current directory after cd)
+          app_location: "./TAB.Library.Frontend" # App source code path (current directory after cd)
           output_location: "dist" # Built app content directory
