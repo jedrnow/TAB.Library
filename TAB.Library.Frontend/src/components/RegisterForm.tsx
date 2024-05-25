@@ -1,7 +1,7 @@
 // src/components/RegisterForm.tsx
 import React, { useState } from 'react';
 import { API_BASE_URL } from '../constants/api';
-import "./RegisterForm.css";
+import "./Styles.css";
 import ErrorResponseBody from '../constants/ErrorResponseBody';
 import { Link } from 'react-router-dom';
 

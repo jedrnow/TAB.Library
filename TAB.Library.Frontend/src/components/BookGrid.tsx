@@ -2,7 +2,7 @@ import { API_BASE_URL } from '../constants/api';
 import { Book, BooksResponse } from '../interfaces/Book';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import "./BookGrid.css";
+import "./Styles.css";
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';

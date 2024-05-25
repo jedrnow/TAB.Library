@@ -1,0 +1,27 @@
+#registerForm{
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+#loginForm{
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.menuItem{
+    margin: 20px;
+}
+
+.paginationItem{
+    margin: 20px;
+}
+
+.reservedText{
+    color:red;
+}
+
+.availableText{
+    color:rgb(0, 144, 0);
+}

@@ -1,6 +1,6 @@
 import LogoutButton from './LogoutButton';
 import * as React from 'react';
-import "./Dashboard.css";
+import "./Styles.css";
 
 const Dashboard: React.FC = () => {
   const handleHomeButton = () => {
