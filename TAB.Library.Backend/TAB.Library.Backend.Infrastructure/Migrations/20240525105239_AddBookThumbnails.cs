@@ -11,6 +11,17 @@ namespace TAB.Library.Backend.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Content",
+                table: "BookFiles");
+
+            migrationBuilder.AddColumn<byte[]>(
+                name: "ByteContent",
+                table: "BookFiles",
+                type: "varbinary(max)",
+                nullable: false,
+                defaultValue: new byte[0]);
+
             migrationBuilder.CreateTable(
                 name: "BookThumbnails",
                 columns: table => new
@@ -18,7 +29,7 @@ namespace TAB.Library.Backend.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Size = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ByteContent = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -45,6 +56,17 @@ namespace TAB.Library.Backend.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BookThumbnails");
+
+            migrationBuilder.DropColumn(
+                name: "ByteContent",
+                table: "BookFiles");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Content",
+                table: "BookFiles",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace TAB.Library.Backend.Infrastructure.Mapping
                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? $"{src.Author.FirstName} {src.Author.LastName}" : string.Empty))
                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
-               .ForMember(dest => dest.PdfContent, opt => opt.MapFrom(src => src.BookFile != null ? src.BookFile.Content : string.Empty))
+               .ForMember(dest => dest.PdfContent, opt => opt.MapFrom(src => string.Empty)) // todo
                .ForMember(dest => dest.IsReserved, opt => opt.MapFrom(src => src.RentalHistory.Where(x => !x.IsReturned).Any()));
         }
     }

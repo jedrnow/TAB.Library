@@ -12,7 +12,7 @@ using TAB.Library.Backend.Infrastructure.Data;
 namespace TAB.Library.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20240525103825_AddBookThumbnails")]
+    [Migration("20240525105239_AddBookThumbnails")]
     partial class AddBookThumbnails
     {
         /// <inheritdoc />
@@ -322,9 +322,9 @@ namespace TAB.Library.Backend.Infrastructure.Migrations
                     b.Property<int?>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
+                    b.Property<byte[]>("ByteContent")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -356,9 +356,9 @@ namespace TAB.Library.Backend.Infrastructure.Migrations
                     b.Property<int?>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
+                    b.Property<byte[]>("ByteContent")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
