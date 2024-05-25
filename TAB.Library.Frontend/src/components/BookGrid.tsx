@@ -8,6 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import BookThumbnail from './BookThumbnail';
+import { Link } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -54,8 +55,8 @@ const BookGrid: React.FC = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {books.map((book: Book, index: number) => (
           <Grid xs={2} sm={4} md={4} key={index}>
-            <Item><a href={`/book/${book.id}`}><BookThumbnail content={book.thumbnailMediumContent}/></a></Item>
-            <Item><a href={`/book/${book.id}`}><b>{book.title}</b></a></Item>
+            <Item><Link to={`/book/${book.id}`}><BookThumbnail content={book.thumbnailMediumContent}/></Link></Item>
+            <Item><Link to={`/book/${book.id}`}><b>{book.title}</b></Link></Item>
             <Item>({book.publishYear})</Item>
             <Item>{book.authorName}</Item>
             <Item>{book.categoryName}</Item>
