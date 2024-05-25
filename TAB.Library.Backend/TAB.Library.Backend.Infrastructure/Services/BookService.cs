@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using TAB.Library.Backend.Core.Models;
 using TAB.Library.Backend.Core.Models.DTO;
 using TAB.Library.Backend.Infrastructure.Repositories.Abstractions;
 using TAB.Library.Backend.Infrastructure.Services.Abstractions;
@@ -15,6 +14,13 @@ namespace TAB.Library.Backend.Infrastructure.Services
         {
             _bookRepository = bookRepository;
             _mapper = mapper;
+        }
+
+        public async Task<bool> CheckIfBookExists(int bookId)
+        {
+            var book = await _bookRepository.GetAsync(bookId);
+
+            return book != null;
         }
 
         public async Task<PaginatedListDTO<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize)

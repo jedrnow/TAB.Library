@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using MediatR;
 using TAB.Library.Backend.Core.Constants;
-using TAB.Library.Backend.Core.Models;
 using TAB.Library.Backend.Core.Models.DTO;
 
 namespace TAB.Library.Backend.Application.Queries
 {
     public class GetPaginatedBookListQuery : IRequest<PaginatedListDTO<BookDTO>>
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int PageNumber { get; init; }
+        public int PageSize { get; init; }
         public GetPaginatedBookListQuery(int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;

@@ -9,5 +9,6 @@ namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
         Task<bool> RegisterUser(string username, string password, string email, string firstname, string lastname, string phoneNumber);
         Task<bool> Login(string username, string password);
         Task<ClaimsIdentity> GetClaimsIdentity(string username);
+        Task<int> GetUserIdByName(string username);
     }
 }
