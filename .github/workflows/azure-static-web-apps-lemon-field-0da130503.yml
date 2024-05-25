@@ -6,8 +6,6 @@ on:
       - master
     paths:
       - 'TAB.Library.Frontend/**'
-      
-  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
@@ -22,14 +20,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - name: cd TAB.Library.Frontend
+      - name: Navigate to frontend directory
         run: cd TAB.Library.Frontend
       - name: npm install
         run: npm install
       - name: npm build
         run: npm run build
       - name: Delete node_modules
-        run: rm -rf TAB.Library.Frontend/node_modules
+        run: rm -rf node_modules
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -37,8 +35,5 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_FIELD_0DA130503 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          app_location: "./TAB.Library.Frontend" # App source code path
+          app_location: "./" # App source code path (current directory after cd)
           output_location: "dist" # Built app content directory
-          skip_app_build: true
-          skip_api_build: true
-          is_static_export: false
