@@ -25,9 +25,9 @@ jobs:
         with:
           node-version: '16.x'
       - name: npm install
-        run: npm install
+        run: npm install --working-directory=TAB.Library.Frontend
       - name: npm build
-        run: npm run build
+        run: npm run build --working-directory=TAB.Library.Frontend
       - name: Delete node_modules
         run: rm -rf node_modules
       - name: Build And Deploy
