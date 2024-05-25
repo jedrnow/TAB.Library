@@ -7,6 +7,9 @@ export interface Book {
     categoryId: number;
     categoryName: string;
     pdfContent: string;
+    thumbnailSmallContent: string;
+    thumbnailMediumContent: string;
+    thumbnailLargeContent: string;
     isReserved: boolean;
 }
   
