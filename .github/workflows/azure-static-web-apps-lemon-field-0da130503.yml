@@ -18,12 +18,12 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - name: cd TAB.Library.Frontend
+        run: cd TAB.Library.Frontend
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - name: Navigate to frontend directory
-        run: cd TAB.Library.Frontend
       - name: npm install
         run: npm install
       - name: npm build
