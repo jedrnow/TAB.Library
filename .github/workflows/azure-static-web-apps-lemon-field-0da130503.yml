@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'TAB.Library.Frontend/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
