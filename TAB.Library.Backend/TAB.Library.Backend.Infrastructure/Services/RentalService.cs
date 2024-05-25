@@ -21,6 +21,9 @@ namespace TAB.Library.Backend.Infrastructure.Services
 
         public async Task<bool> AddRental(int bookId, int userId, int? rentalPeriodInDays = null)
         {
+            bool bookNotAvailable = (await _rentalRepository.GetListAsync(x => x.BookId == bookId && !x.IsReturned)).Count > 0;
+            if (bookNotAvailable) throw new RentalNotAvailableException();
+
             Rental newRental = new()
             {
                 BookId = bookId,
