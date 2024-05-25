@@ -8,6 +8,7 @@ using TAB.Library.Backend.Application.Models;
 using TAB.Library.Backend.Infrastructure.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using TAB.Library.Backend.Core.Exceptions;
+using TAB.Library.Backend.Core.Entities;
 
 namespace TAB.Library.Backend.Application.Controllers
 {
@@ -56,6 +57,19 @@ namespace TAB.Library.Backend.Application.Controllers
         public IActionResult IsAuthenticated()
         {
             if (User.Identity.IsAuthenticated) return Ok();
+
+            throw new UserUnauthorizedException();
+        }
+
+        [HttpGet("IsAdmin")]
+        [Authorize]
+        public async Task<IActionResult> IsAdmin()
+        {
+            var username = User.Identity?.Name ?? throw new UserUnauthorizedException();
+
+            var hasAdminPermission = await _userService.CheckAdminPermissions(username);
+
+            if (hasAdminPermission) return Ok();
 
             throw new UserUnauthorizedException();
         }

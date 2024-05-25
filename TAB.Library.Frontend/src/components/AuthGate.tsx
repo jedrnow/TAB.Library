@@ -4,24 +4,42 @@ import { API_BASE_URL } from '../constants/api';
 
 interface AuthGateProps {
   loggedInComponent?: React.ReactNode;
+  requireAdminsPermission: boolean;
 }
 
-const AuthGate: React.FC<AuthGateProps> = ({ loggedInComponent}) => {
+const AuthGate: React.FC<AuthGateProps> = ({ loggedInComponent, requireAdminsPermission}) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch(API_BASE_URL + '/Auth/IsAuthenticated', {
+        const responseAuth = await fetch(API_BASE_URL + '/Auth/IsAuthenticated', {
           method: 'GET',
           credentials: 'include'
-      });
-        if (response.status === 200) {
+        });
+
+        if (responseAuth.status === 200){
           setIsAuthenticated(true);
-        } else {
+
+          if (requireAdminsPermission){
+            const responseAdmin = await fetch(API_BASE_URL + '/Auth/IsAdmin', {
+              method: 'GET',
+              credentials: 'include'
+            });
+
+            if (responseAdmin.status === 200){
+              setIsAdmin(true);
+            }
+          }
+        }
+        else
+        {
           setIsAuthenticated(false);
         }
-      } catch (error) {
+      }
+      catch (error)
+      {
         setIsAuthenticated(false);
       }
     };
@@ -29,7 +47,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ loggedInComponent}) => {
     checkAuth();
   }, []);
 
-  return <>{isAuthenticated ? loggedInComponent : <LoginForm></LoginForm>}</>;
+  return <>{(isAuthenticated && (!requireAdminsPermission || isAdmin)) ? loggedInComponent : <LoginForm></LoginForm>}</>;
 };
 
 export default AuthGate;
