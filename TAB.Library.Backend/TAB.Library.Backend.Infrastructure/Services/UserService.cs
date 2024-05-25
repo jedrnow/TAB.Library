@@ -82,6 +82,14 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return claimsIdentity;
         }
 
+        public async Task<int> GetUserIdByName(string username)
+        {
+            var user = await _userRepository.GetAsync(x => x.Username == username);
+            if (user == null) throw new EntityNotFoundException(typeof(User));
+
+            return user.Id;
+        }
+
 
         private string HashPassword(string password)
         {
