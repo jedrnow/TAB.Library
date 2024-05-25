@@ -37,26 +37,20 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _rentalRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> ExtendRental(int rentalId, int daysToAdd)
+        public async Task<bool> ExtendRental(int rentalId, int daysToAdd, int userId)
         {
-            Rental? rental = await _rentalRepository.GetAsync(rentalId);
-            if (rental == null)
-            {
-                throw new EntityNotFoundException(typeof(Rental), rentalId);
-            }
+            Rental rental = await _rentalRepository.GetToEditAsync(rentalId) ?? throw new EntityNotFoundException(typeof(Rental), rentalId);
+            if (rental.UserId != userId) throw new UserUnauthorizedException();
 
             rental.ToUtc = rental.ToUtc.AddDays(daysToAdd);
 
             return await _rentalRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> FinishRental(int rentalId)
+        public async Task<bool> FinishRental(int rentalId, int userId)
         {
-            Rental? rental = await _rentalRepository.GetAsync(rentalId);
-            if (rental == null)
-            {
-                throw new EntityNotFoundException(typeof(Rental), rentalId);
-            }
+            Rental rental = await _rentalRepository.GetToEditAsync(rentalId) ?? throw new EntityNotFoundException(typeof(Rental), rentalId);
+            if (rental.UserId != userId) throw new UserUnauthorizedException();
 
             rental.IsReturned = true;
 

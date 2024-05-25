@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TAB.Library.Backend.Application.Commands;
 using TAB.Library.Backend.Application.Queries;
 using TAB.Library.Backend.Core.Entities;
 using TAB.Library.Backend.Core.Exceptions;
@@ -27,6 +28,19 @@ namespace TAB.Library.Backend.Application.Controllers
             var query = new GetPaginatedRentalListQuery(username, pageNumber, pageSize);
 
             var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("{rentalId}/Return")]
+        public async Task<ActionResult<bool>> ReturnBook([FromRoute] int rentalId)
+        {
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
+
+            var command = new ReturnBookCommand(rentalId, username);
+
+            var result = await _mediator.Send(command);
 
             return Ok(result);
         }
