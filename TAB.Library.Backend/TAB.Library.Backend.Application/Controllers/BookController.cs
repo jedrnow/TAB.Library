@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using TAB.Library.Backend.Application.Commands;
 using TAB.Library.Backend.Application.Queries;
 using TAB.Library.Backend.Core.Entities;
@@ -46,7 +45,7 @@ namespace TAB.Library.Backend.Application.Controllers
         [Route("{bookId}/Rent")]
         public async Task<ActionResult<bool>> CreateRental([FromRoute] int bookId)
         {
-            var username = User.Identity.Name ?? throw new EntityNotFoundException(typeof(User));
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
 
             var command = new CreateRentalCommand(bookId, username);
 
@@ -59,7 +58,7 @@ namespace TAB.Library.Backend.Application.Controllers
         [Route("{bookId}/Thumbnail")]
         public async Task<ActionResult<bool>> CreateOrUpdateThumbnail([FromRoute] int bookId, [FromForm] IFormFile file)
         {
-            var username = User.Identity.Name ?? throw new EntityNotFoundException(typeof(User));
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
 
             var command = new CreateOrUpdateThumbnailCommand(bookId, file, username);
 
