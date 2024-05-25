@@ -3,7 +3,7 @@
     public class BookFile : BaseEntity
     {
         public string FileName { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
+        public byte[] ByteContent { get; set; } = [];
         public Book Book { get; set; }
         public int? BookId { get; set; }
     }

@@ -68,8 +68,7 @@ namespace TAB.Library.Backend.Infrastructure.Services
 
         public async Task<ClaimsIdentity> GetClaimsIdentity(string username)
         {
-            var user = await _userRepository.GetAsync(x => x.Username == username, x => x.Role);
-            if (user == null) throw new EntityNotFoundException(typeof(User));
+            var user = await _userRepository.GetAsync(x => x.Username == username, x => x.Role) ?? throw new EntityNotFoundException(typeof(User));
 
             List<Claim> claims = new()
             {
@@ -84,12 +83,17 @@ namespace TAB.Library.Backend.Infrastructure.Services
 
         public async Task<int> GetUserIdByName(string username)
         {
-            var user = await _userRepository.GetAsync(x => x.Username == username);
-            if (user == null) throw new EntityNotFoundException(typeof(User));
+            var user = await _userRepository.GetAsync(x => x.Username == username) ?? throw new EntityNotFoundException(typeof(User));
 
             return user.Id;
         }
 
+        public async Task<bool> CheckAdminPermissions(string username)
+        {
+            var user = await _userRepository.GetAsync(x => x.Username == username, x => x.Role) ?? throw new EntityNotFoundException(typeof(User));
+
+            return user.Role.Name == "Administrator";
+        }
 
         private string HashPassword(string password)
         {
