@@ -21,9 +21,9 @@ jobs:
       - name: cd TAB.Library.Frontend
         run: cd TAB.Library.Frontend
       - name: npm install
-        run: npm install
+        run: npm install --prefix ./TAB.Library.Backend -g
       - name: npm build
-        run: npm run build
+        run: npm run build --prefix ./TAB.Library.Backend -g
       - name: Delete node_modules
         run: rm -rf node_modules
       - name: Build And Deploy
