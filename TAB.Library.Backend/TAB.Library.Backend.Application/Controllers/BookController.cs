@@ -21,6 +21,17 @@ namespace TAB.Library.Backend.Application.Controllers
         }
 
         [HttpGet]
+        [Route("{bookId}")]
+        public async Task<ActionResult<BookDTO>> GetBookById([FromRoute] int bookId)
+        {
+            var query = new GetBookByIdQuery(bookId);
+
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         public async Task<ActionResult<PaginatedListDTO<BookDTO>>> GetPaginatedList([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var query = new GetPaginatedBookListQuery(pageNumber, pageSize);
