@@ -19,12 +19,14 @@ namespace TAB.Library.Backend.Core
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookFileRepository, BookFileRepository>();
+            services.AddScoped<IBookThumbnailRepository, BookThumbnailRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
 
             // Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRentalService, RentalService>();
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IBookThumbnailService, BookThumbnailService>();
         }
     }
 }
