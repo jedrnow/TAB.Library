@@ -20,7 +20,10 @@ namespace TAB.Library.Backend.Application.Handlers
         {
             int userId = await _userService.GetUserIdByName(request.Username);
 
-            PaginatedListDTO<RentalDTO> result = await _rentalService.GetUsersRentalsPaginatedList(userId, request.PageNumber, request.PageSize);
+            bool isAdmin = false;
+            if (request.IsAdminCall) isAdmin = await _userService.CheckAdminPermissions(request.Username);
+
+            PaginatedListDTO<RentalDTO> result = isAdmin ? await _rentalService.GetRentalsPaginatedList(request.PageNumber, request.PageSize) : await _rentalService.GetUsersRentalsPaginatedList(userId, request.PageNumber, request.PageSize);
 
             return result;
         }

@@ -96,7 +96,7 @@ const UsersRentals: React.FC = () => {
             onRowSelectionModelChange={handleSelectionChange}
           />
         </Box>
-        {selectedRows.length > 0 ? <button onClick={handleReturnBooks}>{selectedRows.length > 1 ? "Return books" : "Return a book"}</button> : <></>}
+        {selectedRows.length > 0 ? <button onClick={handleReturnBooks}>Return selected</button> : <></>}
       </div>
     </>
   );

@@ -8,11 +8,13 @@ namespace TAB.Library.Backend.Application.Queries
     public class GetPaginatedRentalListQuery : IRequest<PaginatedListDTO<RentalDTO>>
     {
         public string Username { get; init; }
+        public bool IsAdminCall { get; init; }
         public int PageNumber { get; init; }
         public int PageSize { get; init; }
-        public GetPaginatedRentalListQuery(string username, int pageNumber, int pageSize)
+        public GetPaginatedRentalListQuery(string username, bool isAdminCall, int pageNumber, int pageSize)
         {
             Username = username;
+            IsAdminCall = isAdminCall;
             PageNumber = pageNumber;
             PageSize = pageSize;
         }

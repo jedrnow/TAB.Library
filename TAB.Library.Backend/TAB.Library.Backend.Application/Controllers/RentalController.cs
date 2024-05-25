@@ -21,11 +21,11 @@ namespace TAB.Library.Backend.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedListDTO<RentalDTO>>> GetPaginatedList([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<ActionResult<PaginatedListDTO<RentalDTO>>> GetPaginatedList([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] bool admin = false)
         {
             var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
 
-            var query = new GetPaginatedRentalListQuery(username, pageNumber, pageSize);
+            var query = new GetPaginatedRentalListQuery(username, admin, pageNumber, pageSize);
 
             var result = await _mediator.Send(query);
 
