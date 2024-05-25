@@ -50,17 +50,16 @@ const BookGrid: React.FC = () => {
 
   return (
     <div>
-        <h3>Books</h3>
         <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {books.map((book: Book, index: number) => (
           <Grid xs={2} sm={4} md={4} key={index}>
-            <Item><BookThumbnail content={book.thumbnailMediumContent}/></Item>
-            <Item>"{book.title}"</Item>
+            <Item><a href={`/book/${book.id}`}><BookThumbnail content={book.thumbnailMediumContent}/></a></Item>
+            <Item><a href={`/book/${book.id}`}><b>{book.title}</b></a></Item>
             <Item>({book.publishYear})</Item>
             <Item>{book.authorName}</Item>
             <Item>{book.categoryName}</Item>
-            <Item>{!book.isReserved ? <a href={`/book/${book.id}`}>Available</a> : "Reserved"}</Item>
+            <Item><p className={book.isReserved ? "reservedText" : "availableText"}>{!book.isReserved ? <b>Available</b> : <b>Reserved</b>}</p></Item>
           </Grid>
         ))}
       </Grid>

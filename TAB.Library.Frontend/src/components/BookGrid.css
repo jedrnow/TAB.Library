@@ -1,3 +1,11 @@
 .paginationItem{
     margin: 20px;
 }
+
+.reservedText{
+    color:red;
+}
+
+.availableText{
+    color:rgb(0, 144, 0);
+}

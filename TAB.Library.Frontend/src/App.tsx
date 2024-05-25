@@ -1,8 +1,9 @@
 import React from 'react';
 import AuthGate from './components/AuthGate';
-import Dashboard from './components/Dashboard';
 import RegisterForm from './components/RegisterForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import BookDetails from './components/BookDetails';
+import Home from './components/Home';
 
 const App: React.FC = () => {
   return (
@@ -10,8 +11,9 @@ const App: React.FC = () => {
       <div>
         <h1>Library</h1>
         <Routes>
-          <Route path="/" element={<AuthGate loggedInComponent={<Dashboard />} />} />
+          <Route path="/" element={<AuthGate loggedInComponent={<Home />} />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/book/:bookId" element={<BookDetails />} />
         </Routes>
       </div>
     </Router>
