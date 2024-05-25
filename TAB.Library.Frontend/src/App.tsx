@@ -17,7 +17,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/book/:bookId" element={<AuthGate loggedInComponent={<BookDetails />} requireAdminsPermission={false} />} />
           <Route path="/rentals" element={<AuthGate loggedInComponent={<UsersRentals />} requireAdminsPermission={false} />} />
-          <Route path="/admin/panel" element={<AuthGate loggedInComponent={<AdminPanel />} requireAdminsPermission={false} />} />
+          <Route path="/admin/panel" element={<AuthGate loggedInComponent={<AdminPanel />} requireAdminsPermission={true} />} />
           <Route path="*" element={<AuthGate loggedInComponent={<Home />} requireAdminsPermission={false} />} />
         </Routes>
       </div>
