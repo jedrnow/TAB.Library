@@ -53,6 +53,15 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _bookRepository.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteBook(int bookId)
+        {
+            var book = await _bookRepository.GetToEditAsync(bookId) ?? throw new EntityNotFoundException(typeof(Book), bookId);
+
+             _bookRepository.Delete(book);
+
+            return await _bookRepository.SaveChangesAsync();
+        }
+
         public async Task<BookDTO> GetBookById(int bookId)
         {
             var book = await _bookRepository.GetAsync(bookId, x => x.RentalHistory, x => x.Author, x => x.Category, x => x.BookFile, x => x.BookThumbnails) ?? throw new EntityNotFoundException(typeof(Book), bookId);

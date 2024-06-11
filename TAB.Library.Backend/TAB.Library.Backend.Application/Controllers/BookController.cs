@@ -46,6 +46,19 @@ namespace TAB.Library.Backend.Application.Controllers
             return Ok(result);
         }
 
+        [HttpDelete]
+        [Route("{bookId}")]
+        public async Task<ActionResult<bool>> DeleteBook([FromRoute] int bookId)
+        {
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
+
+            var command = new DeleteBookCommand(bookId, username);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("{bookId}")]
         public async Task<ActionResult<BookDTO>> GetBookById([FromRoute] int bookId)
