@@ -4,7 +4,7 @@ using TAB.Library.Backend.Core.Models.DTO;
 
 namespace TAB.Library.Backend.Application.Queries
 {
-    public class GetBookByIdQuery : IRequest<BookDTO>
+    public class GetBookByIdQuery : IRequest<BookDetailedDTO>
     {
         public int BookId { get; init; }
 

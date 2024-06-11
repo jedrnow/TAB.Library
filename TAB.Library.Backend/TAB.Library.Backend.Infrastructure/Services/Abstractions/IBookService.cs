@@ -8,7 +8,7 @@ namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
         Task<int> CreateBook(string title, int publishYear, int authorId, int categoryId);
         Task<bool> UpdateBook(int bookId, string title, int publishYear, int authorId, int categoryId);
         Task<bool> DeleteBook(int bookId);
-        Task<BookDTO> GetBookById(int bookId);
+        Task<BookDetailedDTO> GetBookById(int bookId);
         Task<PaginatedListDTO<BookDTO>> GetPaginatedBookList(int pageNumber, int pageSize);
     }
 }

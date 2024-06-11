@@ -27,6 +27,7 @@ namespace TAB.Library.Backend.Core
             services.AddScoped<IRentalService, RentalService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IBookThumbnailService, BookThumbnailService>();
+            services.AddScoped<IBookFileService, BookFileService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAuthorService, AuthorService>();
         }
