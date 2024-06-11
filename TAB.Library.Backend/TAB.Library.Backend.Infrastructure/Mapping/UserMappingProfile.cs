@@ -9,6 +9,7 @@ namespace TAB.Library.Backend.Infrastructure.Mapping
         public UserMappingProfile()
         {
             CreateMap<User, UserDTO>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
