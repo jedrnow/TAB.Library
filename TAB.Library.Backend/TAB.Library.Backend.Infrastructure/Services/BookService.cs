@@ -62,11 +62,11 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _bookRepository.SaveChangesAsync();
         }
 
-        public async Task<BookDTO> GetBookById(int bookId)
+        public async Task<BookDetailedDTO> GetBookById(int bookId)
         {
             var book = await _bookRepository.GetAsync(bookId, x => x.RentalHistory, x => x.Author, x => x.Category, x => x.BookFile, x => x.BookThumbnails) ?? throw new EntityNotFoundException(typeof(Book), bookId);
 
-            var mappedBook = _mapper.Map<BookDTO>(book);
+            var mappedBook = _mapper.Map<BookDetailedDTO>(book);
 
             return mappedBook;
         }

@@ -61,7 +61,7 @@ namespace TAB.Library.Backend.Application.Controllers
 
         [HttpGet]
         [Route("{bookId}")]
-        public async Task<ActionResult<BookDTO>> GetBookById([FromRoute] int bookId)
+        public async Task<ActionResult<BookDetailedDTO>> GetBookById([FromRoute] int bookId)
         {
             var query = new GetBookByIdQuery(bookId);
 
@@ -100,6 +100,19 @@ namespace TAB.Library.Backend.Application.Controllers
             var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
 
             var command = new CreateOrUpdateThumbnailCommand(bookId, file, username);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("{bookId}/File")]
+        public async Task<ActionResult<bool>> CreateOrUpdateFile([FromRoute] int bookId, [FromForm] IFormFile file)
+        {
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
+
+            var command = new CreateOrUpdateFileCommand(bookId, file, username);
 
             var result = await _mediator.Send(command);
 

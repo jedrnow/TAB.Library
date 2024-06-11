@@ -5,7 +5,7 @@ using TAB.Library.Backend.Infrastructure.Services.Abstractions;
 
 namespace TAB.Library.Backend.Application.Handlers
 {
-    public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookDTO>
+    public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookDetailedDTO>
     {
         private readonly IBookService _bookService;
 
@@ -14,9 +14,9 @@ namespace TAB.Library.Backend.Application.Handlers
             _bookService = bookService;
         }
 
-        public async Task<BookDTO> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
+        public async Task<BookDetailedDTO> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
-            BookDTO result = await _bookService.GetBookById(request.BookId);
+            BookDetailedDTO result = await _bookService.GetBookById(request.BookId);
 
             return result;
         }
