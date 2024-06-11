@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using TAB.Library.Backend.Core.Constants;
 using TAB.Library.Backend.Core.Entities;
 using TAB.Library.Backend.Core.Exceptions;
+using TAB.Library.Backend.Core.Models.DTO;
 using TAB.Library.Backend.Infrastructure.Repositories.Abstractions;
 using TAB.Library.Backend.Infrastructure.Services.Abstractions;
 
@@ -12,9 +14,11 @@ namespace TAB.Library.Backend.Infrastructure.Services
 {
     public class UserService : IUserService
     {
+        private IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository repository)
+        public UserService(IMapper mapper, IUserRepository repository)
         {
+            _mapper = mapper;
             _userRepository = repository;
         }
 
@@ -93,6 +97,15 @@ namespace TAB.Library.Backend.Infrastructure.Services
             var user = await _userRepository.GetAsync(x => x.Username == username, x => x.Role) ?? throw new EntityNotFoundException(typeof(User));
 
             return user.Role.Name == "Administrator";
+        }
+
+        public async Task<PaginatedListDTO<UserDTO>> GetPaginatedUserList(int pageNumber, int pageSize)
+        {
+            var paginatedList = await _userRepository.GetPaginatedListAsync(pageNumber, pageSize, x => x.UsersRentals, x => x.Role);
+
+            var mappedPaginatedList = _mapper.Map<PaginatedListDTO<UserDTO>>(paginatedList);
+
+            return mappedPaginatedList;
         }
 
         private string HashPassword(string password)

@@ -3,6 +3,7 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import Dashboard from './Dashboard';
 import AdminRentalsManagment from './AdminRentalsManagment';
 import AdminBooksManagment from './AdminBooksManagment';
+import AdminUsersManagment from './AdminUsersManagment';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -62,7 +63,7 @@ const AdminPanel: React.FC = () => {
                     <AdminRentalsManagment/>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
-                    Item Three
+                    <AdminUsersManagment />
                 </CustomTabPanel>
             </Box>
         </div>

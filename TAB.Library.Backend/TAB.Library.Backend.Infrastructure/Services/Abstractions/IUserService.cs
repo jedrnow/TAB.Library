@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using TAB.Library.Backend.Core.Models.DTO;
 
 namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
 {
@@ -11,5 +12,6 @@ namespace TAB.Library.Backend.Infrastructure.Services.Abstractions
         Task<bool> Login(string username, string password);
         Task<ClaimsIdentity> GetClaimsIdentity(string username);
         Task<int> GetUserIdByName(string username);
+        Task<PaginatedListDTO<UserDTO>> GetPaginatedUserList(int pageNumber, int pageSize);
     }
 }
