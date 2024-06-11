@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Book } from '../interfaces/Book';
+import { BookDetail } from '../interfaces/Book';
 import { API_BASE_URL } from '../constants/api';
 import { Container } from '@mui/material';
 import BookThumbnail from './BookThumbnail';
@@ -8,7 +8,7 @@ import Dashboard from './Dashboard';
 
 const BookDetails: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const [book, setBook] = useState<Book>();
+  const [book, setBook] = useState<BookDetail>();
 
   useEffect(() => {
     fetchBook(bookId);
@@ -17,7 +17,7 @@ const BookDetails: React.FC = () => {
   const fetchBook = async (bookId: string | undefined) => {
     try {
       const response = await fetch(API_BASE_URL + `/Book/${bookId}`, {credentials:'include'});
-      const data: Book = await response.json();
+      const data: BookDetail = await response.json();
       setBook(data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -34,6 +34,25 @@ const BookDetails: React.FC = () => {
       }
   }
 
+  const openPdfViewer = (base64Pdf: string | undefined) => {
+    if (!base64Pdf) {
+      return;
+    }
+  
+    // Decode base64 string to binary data
+    const byteCharacters = atob(base64Pdf);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    const objectUrl = URL.createObjectURL(blob);
+  
+    // Open the PDF in a new tab
+    window.open(objectUrl, '_blank');
+  };
+
   return (
     <>
     <Dashboard></Dashboard>
@@ -45,6 +64,7 @@ const BookDetails: React.FC = () => {
       <p>{book?.publishYear ? `(${book.publishYear})` : ""}</p>
       <p>{book?.authorName ?? ""}</p>
       {!book?.isReserved ? <button onClick={() => rentBook(bookId)}>Rent</button> : <button disabled>Reserved</button>}
+      {(book?.pdfContent != null && book.pdfContent != "") ? <button onClick={() => openPdfViewer(book.pdfContent)}>Print</button> : <button disabled>Pdf file not available</button>}
     </Container>
     </>
   );

@@ -10,6 +10,7 @@ const AdminBooksManagment: React.FC = () => {
     const [totalPages, setTotalPages] = useState<number>(0);
     const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
     const [fileInputs, setFileInputs] = useState<{ [key: string]: File | null }>({});
+    const [pdfFileInputs, setPdfFileInputs] = useState<{ [key: string]: File | null }>({});
 
     useEffect(() => {
         fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
@@ -36,6 +37,10 @@ const AdminBooksManagment: React.FC = () => {
 
     const handleFileChange = (bookId: string, file: File | null) => {
         setFileInputs(prev => ({ ...prev, [bookId]: file }));
+    };
+    
+    const handlePdfFileChange = (bookId: string, file: File | null) => {
+        setPdfFileInputs(prev => ({ ...prev, [bookId]: file }));
     };
 
     const handleAddThumbnail = async (bookId: string) => {
@@ -65,6 +70,33 @@ const AdminBooksManagment: React.FC = () => {
         }
     };
 
+    const handleAddFile = async (bookId: string) => {
+        const file = pdfFileInputs[bookId];
+        if (!file) {
+            console.error(`No file selected for book ${bookId}.`);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/Book/${bookId}/File`, {
+                method: 'POST',
+                credentials: 'include',
+                body: formData,
+            });
+            const success = await response.json();
+            if (success) {
+                fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+            } else {
+                console.error(`Error adding file ${bookId}.`);
+            }
+        } catch (error) {
+            console.error(`Error adding file ${bookId}:`, error);
+        }
+    };
+
     const handleAddMultipleThumbnails = async () => {
         for(const bookId in fileInputs){
             const file = fileInputs[bookId];
@@ -90,6 +122,37 @@ const AdminBooksManagment: React.FC = () => {
                 }
             } catch (error) {
                 console.error(`Error adding thumbnail ${bookId}:`, error);
+            }
+        }
+
+        fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+    };
+    
+    const handleAddMultipleFiles = async () => {
+        for(const bookId in pdfFileInputs){
+            const file = pdfFileInputs[bookId];
+            if (!file) {
+                console.error(`No file selected for book ${bookId}.`);
+                continue;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/Book/${bookId}/File`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formData,
+                });
+                const success = await response.json();
+                if (success) {
+                    fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+                } else {
+                    console.error(`Error adding file ${bookId}.`);
+                }
+            } catch (error) {
+                console.error(`Error adding file ${bookId}:`, error);
             }
         }
 
@@ -154,6 +217,29 @@ const AdminBooksManagment: React.FC = () => {
                 </div>
             ))}
             {selectedRows.length > 1 && <button onClick={() => handleAddMultipleThumbnails()}>Upload Thumbnails</button>}
+            {selectedRows.length > 1 ? selectedRows.map(rowId => (
+                <div key={rowId} style={{ margin: '10px 0' }}>
+                    <label style={{color:'black', margin: '20px'}}>ID = {rowId}</label>
+                    <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={e => handlePdfFileChange(rowId.toString(), e.target.files ? e.target.files[0] : null)}
+                        style={{width:'100px'}}
+                    />
+                    {pdfFileInputs[rowId.toString()] && <img src="/check-mark.svg" alt="Check Mark" style={{ color: 'black', marginLeft: '10px', width: '20px', height: '20px' }} />}
+                </div>
+            )) : selectedRows.map(rowId => (
+                <div key={rowId} style={{ margin: '10px 0' }}>
+                    <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={e => handlePdfFileChange(rowId.toString(), e.target.files ? e.target.files[0] : null)}
+                    />
+                    {pdfFileInputs[rowId.toString()] && <img src="/check-mark.svg" alt="Check Mark" style={{ color: 'black', marginLeft: '10px', width: '20px', height: '20px' }} />}
+                    <button onClick={() => handleAddFile(rowId.toString())}>Upload Files</button>
+                </div>
+            ))}
+            {selectedRows.length > 1 && <button onClick={() => handleAddMultipleFiles()}>Upload Files</button>}
         </>
     );
 };
