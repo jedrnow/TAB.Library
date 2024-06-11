@@ -41,6 +41,18 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return book.Id;
         }
 
+        public async Task<bool> UpdateBook(int bookId, string title, int publishYear, int authorId, int categoryId)
+        {
+            var book = await _bookRepository.GetToEditAsync(bookId) ?? throw new EntityNotFoundException(typeof(Book), bookId);
+
+            book.Title = title;
+            book.PublishYear = publishYear;
+            book.AuthorId = authorId;
+            book.CategoryId = categoryId;
+
+            return await _bookRepository.SaveChangesAsync();
+        }
+
         public async Task<BookDTO> GetBookById(int bookId)
         {
             var book = await _bookRepository.GetAsync(bookId, x => x.RentalHistory, x => x.Author, x => x.Category, x => x.BookFile, x => x.BookThumbnails) ?? throw new EntityNotFoundException(typeof(Book), bookId);
