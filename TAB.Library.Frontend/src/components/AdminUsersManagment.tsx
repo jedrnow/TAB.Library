@@ -1,14 +1,14 @@
 import { API_BASE_URL } from '../constants/api';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridPaginationModel, GridRowSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { User, UsersResponse } from '../interfaces/User';
 
 const AdminUsersManagment: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
     const [totalPages, setTotalPages] = useState<number>(0);
-    const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
+    //const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
 
     useEffect(() => {
         fetchUsers(paginationModel.page + 1, paginationModel.pageSize);
@@ -29,8 +29,11 @@ const AdminUsersManagment: React.FC = () => {
         setPaginationModel(newModel);
     };
 
-    const handleSelectionChange = (newSelection: GridRowSelectionModel) => {
-        setSelectedRows(newSelection);
+    // const handleSelectionChange = (newSelection: GridRowSelectionModel) => {
+    //     setSelectedRows(newSelection);
+    // };
+    const handleSelectionChange = () => {
+
     };
 
     const columns: GridColDef[] = [
