@@ -9,6 +9,7 @@
         public int AuthorId { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
+        public string PdfContent { get; set; } = string.Empty;
         public string ThumbnailMediumContent { get; set; } = string.Empty;
         public bool IsReserved { get; set; }
         public bool IsPdfAvailable { get; set; }
