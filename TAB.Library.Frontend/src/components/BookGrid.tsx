@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const BookGrid: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {

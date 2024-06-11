@@ -38,13 +38,13 @@ const AdminUsersManagment: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 30 },
-        { field: 'username', headerName: 'Username', width: 100 },
-        { field: 'email', headerName: 'Email', width: 100 },
-        { field: 'firstName', headerName: 'First Name', width: 100 },
-        { field: 'lastName', headerName: 'Last Name', width: 100 },
-        { field: 'phoneNumber', headerName: 'Phone Number', width: 100 },
-        { field: 'role', headerName: 'Role', width: 100 },
-        { field: 'booksToReturn', headerName: 'Books To Return', width: 30 },
+        { field: 'username', headerName: 'Username', width: 200 },
+        { field: 'email', headerName: 'Email', width: 250 },
+        { field: 'firstName', headerName: 'First Name', width: 120 },
+        { field: 'lastName', headerName: 'Last Name', width: 120 },
+        { field: 'phoneNumber', headerName: 'Phone Number', width: 120 },
+        { field: 'role', headerName: 'Role', width: 130 },
+        { field: 'booksToReturn', headerName: 'Books To Return', width: 130 },
     ];
 
     const rows = users.map(user => ({
