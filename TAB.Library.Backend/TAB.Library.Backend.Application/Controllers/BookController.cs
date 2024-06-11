@@ -33,6 +33,19 @@ namespace TAB.Library.Backend.Application.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        [Route("{bookId}")]
+        public async Task<ActionResult<bool>> UpdateBook([FromRoute] int bookId, [FromBody] UpdateBookInput input)
+        {
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
+
+            var command = new UpdateBookCommand(bookId, input, username);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("{bookId}")]
         public async Task<ActionResult<BookDTO>> GetBookById([FromRoute] int bookId)
