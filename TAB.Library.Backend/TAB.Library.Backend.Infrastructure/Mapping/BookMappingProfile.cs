@@ -21,7 +21,8 @@ namespace TAB.Library.Backend.Infrastructure.Mapping
                .ForMember(dest => dest.ThumbnailSmallContent, opt => opt.MapFrom(src => MapThumbnail(src, ThumbnailSize.Small)))
                .ForMember(dest => dest.ThumbnailMediumContent, opt => opt.MapFrom(src => MapThumbnail(src, ThumbnailSize.Medium)))
                .ForMember(dest => dest.ThumbnailLargeContent, opt => opt.MapFrom(src => MapThumbnail(src, ThumbnailSize.Large)))
-               .ForMember(dest => dest.IsReserved, opt => opt.MapFrom(src => src.RentalHistory.Where(x => !x.IsReturned).Any()));
+               .ForMember(dest => dest.IsReserved, opt => opt.MapFrom(src => src.RentalHistory.Where(x => !x.IsReturned).Any()))
+               .ForMember(dest => dest.ReservedByCurrentUser, opt => opt.MapFrom(src => false));
 
             CreateMap<Book, BookDTO>()
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

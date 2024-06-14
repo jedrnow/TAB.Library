@@ -63,7 +63,9 @@ namespace TAB.Library.Backend.Application.Controllers
         [Route("{bookId}")]
         public async Task<ActionResult<BookDetailedDTO>> GetBookById([FromRoute] int bookId)
         {
-            var query = new GetBookByIdQuery(bookId);
+            var username = User.Identity?.Name ?? throw new EntityNotFoundException(typeof(User));
+
+            var query = new GetBookByIdQuery(bookId, username);
 
             var result = await _mediator.Send(query);
 

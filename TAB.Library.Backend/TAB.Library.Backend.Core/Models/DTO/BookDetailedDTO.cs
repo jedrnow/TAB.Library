@@ -14,5 +14,6 @@
         public string ThumbnailMediumContent { get; set; } = string.Empty;
         public string ThumbnailLargeContent { get; set; } = string.Empty;
         public bool IsReserved { get; set; }
+        public bool ReservedByCurrentUser { get; set; } = false;
     }
 }
