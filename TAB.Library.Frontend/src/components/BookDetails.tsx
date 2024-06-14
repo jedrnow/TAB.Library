@@ -64,7 +64,7 @@ const BookDetails: React.FC = () => {
       <p>{book?.publishYear ? `(${book.publishYear})` : ""}</p>
       <p>{book?.authorName ?? ""}</p>
       {!book?.isReserved ? <button onClick={() => rentBook(bookId)}>Rent</button> : <button disabled>Reserved</button>}
-      {(book?.pdfContent != null && book.pdfContent != "") ? <button onClick={() => openPdfViewer(book.pdfContent)}>Print</button> : <button disabled>Pdf file not available</button>}
+      {book?.reservedByCurrentUser ? ((book?.pdfContent != null && book.pdfContent != "") ? <button onClick={() => openPdfViewer(book.pdfContent)}>Print</button> : <button disabled>Pdf file not available</button>) : <></>}
     </Container>
     </>
   );

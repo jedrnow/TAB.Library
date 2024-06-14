@@ -11,6 +11,7 @@ export interface BookDetail {
     thumbnailMediumContent: string;
     thumbnailLargeContent: string;
     isReserved: boolean;
+    reservedByCurrentUser: boolean;
 }
 
 export interface Book {
