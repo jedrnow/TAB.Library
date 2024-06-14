@@ -62,11 +62,18 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return await _bookRepository.SaveChangesAsync();
         }
 
-        public async Task<BookDetailedDTO> GetBookById(int bookId)
+        public async Task<BookDetailedDTO> GetBookById(int bookId, int currentUserId)
         {
             var book = await _bookRepository.GetAsync(bookId, x => x.RentalHistory, x => x.Author, x => x.Category, x => x.BookFile, x => x.BookThumbnails) ?? throw new EntityNotFoundException(typeof(Book), bookId);
 
             var mappedBook = _mapper.Map<BookDetailedDTO>(book);
+
+            if (mappedBook.IsReserved)
+            {
+                var isReservedByCurrentUser = book.RentalHistory.OrderByDescending(x => x.CreatedAtUtc).FirstOrDefault(x => !x.IsReturned)?.UserId == currentUserId;
+
+                mappedBook.ReservedByCurrentUser = isReservedByCurrentUser;
+            }
 
             return mappedBook;
         }
