@@ -6,6 +6,7 @@ import BookDetails from './components/BookDetails';
 import Home from './components/Home';
 import UsersRentals from './components/UsersRentals';
 import AdminPanel from './components/AdminPanel';
+import BookEdit from './components/BookEdit';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/" element={<AuthGate loggedInComponent={<Home />} requireAdminsPermission={false} />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/book/:bookId" element={<AuthGate loggedInComponent={<BookDetails />} requireAdminsPermission={false} />} />
+          <Route path="/book/:bookId/edit" element={<AuthGate loggedInComponent={<BookEdit />} requireAdminsPermission={false} />} />
           <Route path="/rentals" element={<AuthGate loggedInComponent={<UsersRentals />} requireAdminsPermission={false} />} />
           <Route path="/admin/panel" element={<AuthGate loggedInComponent={<AdminPanel />} requireAdminsPermission={true} />} />
           <Route path="*" element={<AuthGate loggedInComponent={<Home />} requireAdminsPermission={false} />} />

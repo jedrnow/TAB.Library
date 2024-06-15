@@ -43,6 +43,27 @@ const AdminBooksManagment: React.FC = () => {
         setPdfFileInputs(prev => ({ ...prev, [bookId]: file }));
     };
 
+    const handleDeleteBook = async (bookId: string) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/Book/${bookId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const success = await response.json();
+            if (success) {
+                fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+            } else {
+                console.error(`Error deleting book id ${bookId}.`);
+            }
+        } catch (error) {
+            console.error(`Error deleting book id ${bookId}:`, error);
+        }
+    };
+
+    const handleEditBook = (bookId: string) => {
+        window.location.href = `/book/${bookId}/edit`;
+    };
+
     const handleAddThumbnail = async (bookId: string) => {
         const file = fileInputs[bookId];
         if (!file) {
@@ -194,6 +215,7 @@ const AdminBooksManagment: React.FC = () => {
                 checkboxSelection
                 onRowSelectionModelChange={handleSelectionChange}
             />
+            {selectedRows.length == 1 ? <div><button onClick={() => handleEditBook(selectedRows[0].toString())}>Edit book</button><button onClick={() => handleDeleteBook(selectedRows[0].toString())}>Delete book</button></div> : <></>}
             {selectedRows.length > 1 ? selectedRows.map(rowId => (
                 <div key={rowId} style={{ margin: '10px 0' }}>
                     <label style={{color:'black', margin: '20px'}}>ID = {rowId}</label>
