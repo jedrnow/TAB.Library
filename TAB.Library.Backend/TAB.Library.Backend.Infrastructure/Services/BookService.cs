@@ -41,14 +41,41 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return book.Id;
         }
 
-        public async Task<bool> UpdateBook(int bookId, string title, int publishYear, int authorId, int categoryId)
+        public async Task<bool> UpdateBook(int bookId, string title, int publishYear, int authorId, int categoryId, string newCategoryName, string newAuthorFirstName, string newAuthorLastName)
         {
             var book = await _bookRepository.GetToEditAsync(bookId) ?? throw new EntityNotFoundException(typeof(Book), bookId);
 
             book.Title = title;
             book.PublishYear = publishYear;
-            book.AuthorId = authorId;
-            book.CategoryId = categoryId;
+
+            if (categoryId == 0)
+            {
+                Category newCategory = new()
+                {
+                    Name = newCategoryName
+                };
+
+                book.Category = newCategory;
+            }
+            else
+            {
+                book.CategoryId = categoryId;
+            }
+
+            if (authorId == 0)
+            {
+                Author newAuthor = new()
+                {
+                    FirstName = newAuthorFirstName,
+                    LastName = newAuthorLastName
+                };
+
+                book.Author = newAuthor;
+            }
+            else
+            {
+                book.AuthorId = authorId;
+            }
 
             return await _bookRepository.SaveChangesAsync();
         }

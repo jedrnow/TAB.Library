@@ -12,6 +12,9 @@ namespace TAB.Library.Backend.Application.Commands
         public int AuthorId { get; init; }
         public int CategoryId { get; init; }
         public string Username { get; init; } = string.Empty;
+        public string CategoryName { get; init; } = string.Empty;
+        public string AuthorFirstName { get; init; } = string.Empty;
+        public string AuthorLastName { get; init; } = string.Empty;
 
         public UpdateBookCommand(int bookId, UpdateBookInput input, string username)
         {
@@ -21,6 +24,9 @@ namespace TAB.Library.Backend.Application.Commands
             AuthorId = input.AuthorId;
             CategoryId = input.CategoryId;
             Username = username;
+            CategoryName = input.CategoryName;
+            AuthorFirstName = input.AuthorFirstName;
+            AuthorLastName = input.AuthorLastName;
         }
     }
 
@@ -42,15 +48,29 @@ namespace TAB.Library.Backend.Application.Commands
 
             RuleFor(x => x.AuthorId)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("AuthorId is required");
+                .GreaterThanOrEqualTo(0).WithMessage("AuthorId cannot be negative");
 
             RuleFor(x => x.CategoryId)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("CategoryId is required");
+                .GreaterThanOrEqualTo(0).WithMessage("CategoryId cannot be negative");
 
             RuleFor(x => x.Username)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Username is required");
+
+            When(x => x.CategoryId == 0, () =>
+            {
+                RuleFor(x => x.CategoryName)
+                    .NotEmpty().WithMessage("CategoryName is required on adding new category");
+            });
+
+            When(x => x.AuthorId == 0, () =>
+            {
+                RuleFor(x => x.AuthorFirstName)
+                    .NotEmpty().WithMessage("AuthorFirstName is required on adding new author");
+                RuleFor(x => x.AuthorLastName)
+                    .NotEmpty().WithMessage("AuthorLastName is required on adding new author");
+            });
         }
     }
 }
