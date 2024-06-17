@@ -25,15 +25,42 @@ namespace TAB.Library.Backend.Infrastructure.Services
             return book != null;
         }
 
-        public async Task<int> CreateBook(string title, int publishYear, int authorId, int categoryId)
+        public async Task<int> CreateBook(string title, int publishYear, int authorId, int categoryId, string newCategoryName, string newAuthorFirstName, string newAuthorLastName)
         {
             var book = new Book()
             {
                 Title = title,
-                AuthorId = authorId,
-                CategoryId = categoryId,
                 PublishYear = publishYear,
             };
+
+            if (categoryId == 0)
+            {
+                Category newCategory = new()
+                {
+                    Name = newCategoryName
+                };
+
+                book.Category = newCategory;
+            }
+            else
+            {
+                book.CategoryId = categoryId;
+            }
+
+            if (authorId == 0)
+            {
+                Author newAuthor = new()
+                {
+                    FirstName = newAuthorFirstName,
+                    LastName = newAuthorLastName
+                };
+
+                book.Author = newAuthor;
+            }
+            else
+            {
+                book.AuthorId = authorId;
+            }
 
             await _bookRepository.AddAsync(book);
             await _bookRepository.SaveChangesAsync();
