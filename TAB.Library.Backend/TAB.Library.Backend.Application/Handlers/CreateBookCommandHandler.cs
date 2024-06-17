@@ -21,7 +21,7 @@ namespace TAB.Library.Backend.Application.Handlers
             bool userHasAdminPermissions = await _userService.CheckAdminPermissions(request.Username);
             if (!userHasAdminPermissions) throw new UserUnauthorizedException();
 
-            int createdBookId = await _bookService.CreateBook(request.Title, request.PublishYear, request.AuthorId, request.CategoryId);
+            int createdBookId = await _bookService.CreateBook(request.Title, request.PublishYear, request.AuthorId, request.CategoryId, request.CategoryName, request.AuthorFirstName, request.AuthorLastName);
 
             return createdBookId;
         }

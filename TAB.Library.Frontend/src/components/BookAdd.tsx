@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BookDetail } from '../interfaces/Book';
 import { API_BASE_URL } from '../constants/api';
 import { Container, TextField, Button, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import BookThumbnail from './BookThumbnail';
 import Dashboard from './Dashboard';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-const BookEdit: React.FC = () => {
+const BookAdd: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const [book, setBook] = useState<BookDetail>();
   const [authors, setAuthors] = useState<{ id: number, name: string }[]>([]);
   const [categories, setCategories] = useState<{ id: number, name: string }[]>([]);
   const [formData, setFormData] = useState({
@@ -23,29 +20,10 @@ const BookEdit: React.FC = () => {
   });
 
   useEffect(() => {
-    fetchBook(bookId);
     fetchAuthors();
     fetchCategories();
   }, [bookId]);
 
-  const fetchBook = async (bookId: string | undefined) => {
-    try {
-      const response = await fetch(API_BASE_URL + `/Book/${bookId}`, { credentials: 'include' });
-      const data: BookDetail = await response.json();
-      setBook(data);
-      setFormData({
-        title: data.title,
-        publishYear: data.publishYear.toString(),
-        authorId: data.authorId.toString(),
-        authorFirstName: '',
-        authorLastName: '',
-        categoryId: data.categoryId.toString(),
-        categoryName: ''
-      });
-    } catch (error) {
-      console.error('Error fetching book:', error);
-    }
-  };
 
   const fetchAuthors = async () => {
     try {
@@ -86,7 +64,7 @@ const BookEdit: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const updatedBook = {
+    const requestBody = {
       title: formData.title,
       publishYear: parseInt(formData.publishYear),
       authorId: parseInt(formData.authorId) || 0,
@@ -97,19 +75,19 @@ const BookEdit: React.FC = () => {
     };
 
     try {
-      const response = await fetch(API_BASE_URL + `/Book/${bookId}`, {
-        method: 'PUT',
+      const response = await fetch(API_BASE_URL + `/Book`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedBook),
+        body: JSON.stringify(requestBody),
         credentials: 'include'
       });
       if (response.ok) {
-        console.log('Book updated successfully');
+        const bookId = await response.text(); 
         window.location.href = `/book/${bookId}`;
       } else {
-        console.error('Failed to update book');
+        console.error('Failed to create book');
       }
     } catch (error) {
       console.error('Error updating book:', error);
@@ -120,9 +98,7 @@ const BookEdit: React.FC = () => {
     <>
       <Dashboard />
       <Container maxWidth="sm">
-        <h2>Edit book</h2>
-        <BookThumbnail content={book?.thumbnailLargeContent ?? ''} />
-        <p>Book ID: {bookId}</p>
+        <h2>Add book</h2>
         <form onSubmit={handleSubmit}>
           <TextField
             label="Title"
@@ -232,4 +208,4 @@ const BookEdit: React.FC = () => {
   );
 };
 
-export default BookEdit;
+export default BookAdd;
