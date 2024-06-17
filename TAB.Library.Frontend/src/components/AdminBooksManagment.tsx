@@ -64,6 +64,10 @@ const AdminBooksManagment: React.FC = () => {
         window.location.href = `/book/${bookId}/edit`;
     };
 
+    const handleAddBook = () => {
+        window.location.href = `/book/add`;
+    };
+
     const handleAddThumbnail = async (bookId: string) => {
         const file = fileInputs[bookId];
         if (!file) {
@@ -215,6 +219,7 @@ const AdminBooksManagment: React.FC = () => {
                 checkboxSelection
                 onRowSelectionModelChange={handleSelectionChange}
             />
+            <button onClick={() => handleAddBook()}>Add book</button>
             {selectedRows.length == 1 ? <div><button onClick={() => handleEditBook(selectedRows[0].toString())}>Edit book</button><button onClick={() => handleDeleteBook(selectedRows[0].toString())}>Delete book</button></div> : <></>}
             {selectedRows.length > 1 ? selectedRows.map(rowId => (
                 <div key={rowId} style={{ margin: '10px 0' }}>
