@@ -52,11 +52,12 @@ const AdminBooksManagment: React.FC = () => {
             const success = await response.json();
             if (success) {
                 fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+                alert("Book deleted successfully!");
             } else {
-                console.error(`Error deleting book id ${bookId}.`);
+                alert(`Error deleting book id ${bookId}.`);
             }
         } catch (error) {
-            console.error(`Error deleting book id ${bookId}:`, error);
+            alert(`Error deleting book id ${bookId}`);
         }
     };
 
@@ -71,7 +72,7 @@ const AdminBooksManagment: React.FC = () => {
     const handleAddThumbnail = async (bookId: string) => {
         const file = fileInputs[bookId];
         if (!file) {
-            console.error(`No file selected for book ${bookId}.`);
+            alert(`No file selected for book ${bookId}.`);
             return;
         }
 
@@ -87,18 +88,19 @@ const AdminBooksManagment: React.FC = () => {
             const success = await response.json();
             if (success) {
                 fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+                alert("Thumbnail uploaded successfully!");
             } else {
-                console.error(`Error adding thumbnail ${bookId}.`);
+                alert(`Error adding thumbnail ${bookId}.`);
             }
         } catch (error) {
-            console.error(`Error adding thumbnail ${bookId}:`, error);
+            alert(`Error adding thumbnail ${bookId}:`);
         }
     };
 
     const handleAddFile = async (bookId: string) => {
         const file = pdfFileInputs[bookId];
         if (!file) {
-            console.error(`No file selected for book ${bookId}.`);
+            alert(`No file selected for book ${bookId}.`);
             return;
         }
 
@@ -114,11 +116,12 @@ const AdminBooksManagment: React.FC = () => {
             const success = await response.json();
             if (success) {
                 fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+                alert("File uploaded successfully!");
             } else {
-                console.error(`Error adding file ${bookId}.`);
+                alert(`Error adding file ${bookId}.`);
             }
         } catch (error) {
-            console.error(`Error adding file ${bookId}:`, error);
+            alert(`Error adding file ${bookId}:`);
         }
     };
 
@@ -126,7 +129,7 @@ const AdminBooksManagment: React.FC = () => {
         for(const bookId in fileInputs){
             const file = fileInputs[bookId];
             if (!file) {
-                console.error(`No file selected for book ${bookId}.`);
+                alert(`No file selected for book ${bookId}.`);
                 continue;
             }
 
@@ -140,24 +143,23 @@ const AdminBooksManagment: React.FC = () => {
                     body: formData,
                 });
                 const success = await response.json();
-                if (success) {
-                    fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
-                } else {
-                    console.error(`Error adding thumbnail ${bookId}.`);
+                if (!success) {
+                    alert(`Error adding thumbnail ${bookId}.`);
                 }
             } catch (error) {
-                console.error(`Error adding thumbnail ${bookId}:`, error);
+                alert(`Error adding thumbnail ${bookId}:`);
             }
         }
 
         fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+        alert("Thumbnails upload completed!");
     };
     
     const handleAddMultipleFiles = async () => {
         for(const bookId in pdfFileInputs){
             const file = pdfFileInputs[bookId];
             if (!file) {
-                console.error(`No file selected for book ${bookId}.`);
+                alert(`No file selected for book ${bookId}.`);
                 continue;
             }
 
@@ -171,17 +173,16 @@ const AdminBooksManagment: React.FC = () => {
                     body: formData,
                 });
                 const success = await response.json();
-                if (success) {
-                    fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
-                } else {
-                    console.error(`Error adding file ${bookId}.`);
+                if (!success) {
+                    alert(`Error adding file ${bookId}.`);
                 }
             } catch (error) {
-                console.error(`Error adding file ${bookId}:`, error);
+                alert(`Error adding file ${bookId}:`);
             }
         }
 
         fetchBooks(paginationModel.page + 1, paginationModel.pageSize);
+        alert("Files upload completed!");
     };
 
     const columns: GridColDef[] = [

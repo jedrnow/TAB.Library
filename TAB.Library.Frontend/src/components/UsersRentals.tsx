@@ -49,11 +49,12 @@ const UsersRentals: React.FC = () => {
         const success = await response.json();
         if (success) {
           fetchRentals(paginationModel.page + 1, paginationModel.pageSize);
+          alert("Selected books returned successfully!");
         } else {
-          console.error(`Failed to return rental ${rentalId}.`);
+          alert(`Failed to return rental ${rentalId}.`);
         }
       } catch (error) {
-        console.error(`Error returning rental ${rentalId}:`, error);
+        alert(`Error returning rental ${rentalId}`);
       }
     }
   };
