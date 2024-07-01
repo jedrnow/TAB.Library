@@ -105,7 +105,7 @@ namespace TAB.Library.Backend.Infrastructure.Repositories
         {
             var query = _context.Set<TEntity>().AsNoTracking().AsQueryable();
 
-            foreach (var include in includes) query = query.Include(include);
+            foreach (var include in includes) query = query.Include(include).Where(func);
 
             var count = query.Count();
 

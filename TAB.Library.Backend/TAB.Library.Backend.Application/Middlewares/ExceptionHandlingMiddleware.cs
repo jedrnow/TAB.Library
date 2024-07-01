@@ -29,6 +29,10 @@ namespace TAB.Library.Backend.Application.Middlewares
             {
                 await HandleExceptionAsync(context, ex);
             }
+            catch (UserUnauthorizedException ex)
+            {
+                await HandleExceptionAsync(context, ex);
+            }
             catch (Exception)
             {
                 await HandleExceptionAsync(context, new UnrecognizedException());
